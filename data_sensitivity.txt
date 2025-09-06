@@ -1,0 +1,59 @@
+Example 1 – Very High Risk (all rules triggered)
+
+{
+  "region": "EU",
+  "data_sensitivity": "high",
+  "processor_name": "UnknownVendor",
+  "purpose": "marketing"
+}
+
+
+Output: 65 (30 + 20 + 15)
+
+Example 2 – High Sensitivity in EU only
+
+{
+  "region": "EU",
+  "data_sensitivity": "high",
+  "processor_name": "TrustedVendor",
+  "purpose": "operations"
+}
+
+
+Output: 30 (just EU + high sensitivity)
+
+Example 3 – Marketing only
+
+{
+  "region": "Asia",
+  "data_sensitivity": "low",
+  "processor_name": "SafeVendor",
+  "purpose": "marketing"
+}
+
+
+Output: 15 (only marketing rule hit)
+
+Example 4 – Unknown Vendor only
+
+{
+  "region": "US",
+  "data_sensitivity": "medium",
+  "processor_name": "UnknownVendor",
+  "purpose": "analytics"
+}
+
+
+Output: 20 (only unknown vendor)
+
+Example 5 – No Risk Case (baseline test)
+
+{
+  "region": "India",
+  "data_sensitivity": "low",
+  "processor_name": "TrustedVendor",
+  "purpose": "hr"
+}
+
+
+Output: 0 (no rules hit)
