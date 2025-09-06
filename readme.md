@@ -19,6 +19,12 @@ A Django REST API to compute risk scores based on input data. This project is re
 - SQLite (default, lightweight DB for local dev)
 - Logging: `logs/risk_score.log` & `logs/django.log`
 
+## Code Repository
+
+- [GitHub Repository](https://github.com/adityagavandi2003/risk_score_api)  
+
+- [Download ZIP](https://github.com/adityagavandi2003/risk_score_api/archive/refs/heads/main.zip)
+
 ## Installation
 
 ```bash
@@ -43,6 +49,13 @@ python manage.py runserver
 
 API available at: [http://127.0.0.1:8000/api/v1/risk-score/](http://127.0.0.1:8000/api/v1/risk-score/)
 
+## Design Decisions
+
+- **Modular Django app:** Clean separation of API logic, risk computation, and logging.
+- **Extensible risk rules:** Rules are defined in code for easy modification.
+- **API key authentication:** Basic security for API endpoints.
+- **Logging:** Detailed logs for both risk computation and Django activity.
+
 ## Example Risk Inputs & Outputs
 
 | Example | Input | Output |
@@ -53,21 +66,33 @@ API available at: [http://127.0.0.1:8000/api/v1/risk-score/](http://127.0.0.1:80
 | **4 – Unknown Vendor Only** | <pre>{ "region":"US", "data_sensitivity":"medium", "processor_name":"UnknownVendor", "purpose":"analytics" }</pre> | <pre>{"risk_score":20,"breakdown":{"unknown_vendor":20}}</pre> |
 | **5 – No Risk** | <pre>{ "region":"India", "data_sensitivity":"low", "processor_name":"TrustedVendor", "purpose":"hr" }</pre> | <pre>{"risk_score":0,"breakdown":{}}</pre> |
 
-## Logging
+## Example API Requests/Responses
 
-- Risk logs: `logs/risk_score.log`
-- Django logs: `logs/django.log`
-- Logs INFO and DEBUG for detailed tracking.
+**Request:**
+```http
+POST /api/v1/risk-score/
+Content-Type: application/json
+x-api-key: secreat123
 
-## Ready for Deployment (Optional)
+{
+    "region": "EU",
+    "data_sensitivity": "high",
+    "processor_name": "UnknownVendor",
+    "purpose": "marketing"
+}
+```
 
-This project can be extended for cloud deployment using:
-
-- **Docker:** Containerize Django + SQLite/Postgres.
-- **Celery + Redis:** Handle async risk computation tasks.
-- **Nginx + Gunicorn:** Serve Django efficiently in production.
-
-Once Docker, Redis, and Celery are added, the project will support background task processing and scalable deployment.
+**Response:**
+```json
+{
+    "risk_score": 65,
+    "breakdown": {
+        "eu_high_sensitivity": 30,
+        "unknown_vendor": 20,
+        "purpose_marketing": 15
+    }
+}
+```
 
 ## Testing API with cURL
 
@@ -96,8 +121,29 @@ curl -X POST http://127.0.0.1:8000/api/v1/risk-score/ \
     ```
 5. Click **Send** to view the response.
 
+## Logging
+
+- Risk logs: `logs/risk_score.log`
+- Django logs: `logs/django.log`
+- Logs INFO and DEBUG for detailed tracking.
+
+## Ready for Deployment (Optional)
+
+This project can be extended for cloud deployment using:
+
+- **Docker:** Containerize Django + SQLite/Postgres.
+- **Celery + Redis:** Handle async risk computation tasks.
+- **Nginx + Gunicorn:** Serve Django efficiently in production.
+
+Once Docker, Redis, and Celery are added, the project will support background task processing and scalable deployment.
+
 ## Feedback & Queries
 
 If you have any feedback or suggestions to improve the RiskScore API, or if you have any queries regarding setup, usage, or extending the project, please feel free to open an issue or contact the maintainers.
 
 We welcome contributions and questions!
+
+
+## Walkthrough Video (Optional)
+
+- [Loom Walkthrough](https://youtu.be/YHXppnD8AhU)  
